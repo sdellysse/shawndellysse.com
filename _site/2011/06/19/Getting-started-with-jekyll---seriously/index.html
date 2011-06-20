@@ -1,0 +1,114 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="author" content="Shawn Dellysse" />
+        <title>Getting Started with Jekyll. Seriously.</title>
+        <!-- Google Analytics -->
+            <script type="text/javascript">
+                var _gaq = _gaq || [];
+                _gaq.push(['_setAccount', 'UA-24067322-1']);
+                _gaq.push(['_trackPageview']);
+                (function() {
+                    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+                    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+                })();
+            </script>
+        <!-- /Google Analytics -->
+    </head>
+    <body>
+        <header>
+            <h1><a href="/">Home</a></h1>
+        </header>
+        <section>
+            <div class="content">
+    <div id="post">
+        <h1></h1>
+        <h3 id='geting_started_with_jekyll_on_heroku_with_a_custom_domain_name'>Geting started with Jekyll on Heroku with a custom domain name</h3>
+
+<p>This blog is running on <a href='https://github.com/mojombo/jekyll/'>Jekyll</a>. I won&#8217;t go into advertising its features, but simply put, it takes a list of postings, some html layouts to provide the look and feel, and a small amount of configuration, processes all of that, and spits out static html pages. The benefit of Jekyll over Wordpress and its ilk are in its simplicity.</p>
+
+<p>The issue I fought tonight was, even in its simplicity, all of the so-called &#8220;Getting Started&#8221; or &#8220;Quickstart&#8221; guides failed me. It took me a couple hours to collect all of the information I needed to start working with Jekyll.</p>
+
+<h3 id='my_scenario_is_this'>My scenario is this:</h3>
+
+<ul>
+<li>Content should not take a backseat to the engine. That shotdown Wordpress.</li>
+
+<li>I wanted to be able to use my standard toolkit (Vim, git) to work with my blog.</li>
+
+<li>I have a GoDaddy-registered domain name.</li>
+
+<li>I want free hosting that will let me use said domain name.</li>
+
+<li>The nameserver settings on my domain have gotten mangled due to attempts at self-hosting. (This is a niche problem, but it may help someone else.)</li>
+</ul>
+
+<h3 id='the_steps_needed_to_accomplish_this'>The steps needed to accomplish this:</h3>
+
+<ul>
+<li>Install it</li>
+
+<li>Setup a git repo for the blog</li>
+
+<li>Build the layouts and entry-page.</li>
+
+<li>Connect Jekyll to Rack so that it can be served by Heroku</li>
+
+<li>Connect your static Heroku &#8220;app&#8221; to your domain.</li>
+</ul>
+
+<h3 id='install_it'>Install it</h3>
+
+<p>Make sure that Ruby and RubyGems are installed on your system. I&#8217;m not going to go into the details of setting that up here; a google search would be able to yield much better tutorials at setting those up than I could. Note that any of the commands printed here have only been run and tested on ArchLinux. Aside from whether or not you need the <code>sudo</code> should be the only thing you&#8217;ll really need to change.</p>
+
+<pre><code>sudo gem install jekyll</code></pre>
+
+<p>We&#8217;re also going to install the <code>heroku</code> gem for working with the remote servers.</p>
+
+<pre><code>sudo gem install heroku</code></pre>
+
+<h3 id='setup_a_minimal_git_repo'>Setup a minimal git repo</h3>
+
+<p>Now it&#8217;s time to create a home for this blog. I have a directory in my <code>$HOME</code> where I keep all of my projects, unsurprisingly called <code>~/projects</code>. Now I will make a new dir to store this blog and stuff a git repo in it.</p>
+
+<pre><code>mkdir ~/projects/blog
+cd ~/projects/blog
+git init</code></pre>
+
+<p>For anyone who has done anything at all with git, heroku, or rails, the above was pretty much standard practice. The difficult part I had was figuring out what kind of directory structure was needed for Jekyll to function. For this bare-minimum blog, here&#8217;s the directory structure we&#8217;ll need, with linenotes to explain their exact meaning:</p>
+
+<pre><code>blog/
+    | _layouts/                               [1]
+              | layout.html                   [2]
+              | post.html                     [3]
+    | _posts/                                 [4]
+            | 2011-06-19-Post-Title.markdown
+    | _config.yml                             [5]
+    | index.html                              [6]</code></pre>
+
+<p>In Jekyll, each blog post will only contain the content of that post, and not deal with the site layout at all. To do this, you can have an arbitrary number of layouts, and these layouts can be nested. In this case, the contents of <code>blog/_layouts/layout.html</code> is as follows:</p>
+
+<pre><code>&lt;!DOCTYPE HTML&gt;
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=UTF-8&quot; /&gt;
+        &lt;meta name=&quot;author&quot; content=&quot;Shawn Dellysse&quot; /&gt;
+        &lt;title&gt;Getting Started with Jekyll. Seriously.&lt;/title&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;header&gt;
+            &lt;h1&gt;&lt;a href=&quot;/&quot;&gt;Jekyll Base&lt;/a&gt;&lt;/h1&gt;
+        &lt;/header&gt;
+        &lt;section&gt;
+            { { content }}
+        &lt;/section&gt;
+    &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+    </div>
+</div>
+
+        </section>
+    </body>
+</html>
